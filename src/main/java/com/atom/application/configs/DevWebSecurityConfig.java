@@ -27,6 +27,7 @@ public class DevWebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
+                .antMatchers("/users/**").permitAll()
                 .anyRequest().authenticated()
             .and()
             .exceptionHandling()

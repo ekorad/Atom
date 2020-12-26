@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserPermissionRepository extends JpaRepository<UserPermission, Long> {
     
     public Optional<UserPermission> findByName(String name);
-    public void deleteByName(String name);
 
 }

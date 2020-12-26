@@ -36,8 +36,8 @@ public class UserPermissionService {
         return repo.save(permission);
     }
 
-    public void removePermissionByName(String name) {
-        repo.deleteByName(name);
+    public void removePermission(UserPermission permission) {
+        repo.delete(permission);
     }
 
     public void removeAllPermissions() {

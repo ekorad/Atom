@@ -1,18 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
+import { MatTableModule } from '@angular/material/table';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserPermissionAdminComponent } from './components/user-permission-admin/user-permission-admin.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserPermissionAdminComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

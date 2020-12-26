@@ -1,5 +1,6 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserPermission } from './../../models/user-permission';
 import { UserPermissionService } from './../../services/user-permission.service';
@@ -9,35 +10,29 @@ import { UserPermissionService } from './../../services/user-permission.service'
   templateUrl: './user-permission-admin.component.html',
   styleUrls: ['./user-permission-admin.component.css']
 })
-export class UserPermissionAdminComponent implements OnInit {
+export class UserPermissionAdminComponent implements AfterViewInit {
 
   dataSource: MatTableDataSource<UserPermission> = new MatTableDataSource<UserPermission>();
-  displayedColumns: string[] = ['select', 'id', 'name'];
-  selection = new SelectionModel<UserPermission>(true, []);
+  columnsToDisplay: string[] = ['id', 'name'];
 
-  isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private userPermService: UserPermissionService) {
   }
 
-  masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear()
-      : this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  checkboxLabel(row?: UserPermission): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'}`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
-  }
-
-  constructor(private userPermService: UserPermissionService) { }
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.userPermService.getAllUserPermissions()
-      .subscribe(recvPerms => this.dataSource.data = recvPerms);
+      .subscribe(recvPerms => {
+        this.dataSource.data = recvPerms;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }

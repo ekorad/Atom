@@ -33,6 +33,17 @@ export class UserPermissionAdminComponent implements OnInit {
   ngOnInit(): void {
     this.userPermService.getAllUserPermissions()
       .subscribe(recvPerms => this.dataSource.data = recvPerms);
+
+    this.dataSource.filterPredicate = (data: UserPermission, filter: string) => {
+      const dataStr = (data.id + ' ' + data.name).toLowerCase();
+      const filters: string[] = filter.replace(/\s+/g, ' ').split(' ');
+      for (const singleFilter of filters) {
+        if (!dataStr.includes(singleFilter)) {
+          return false;
+        }
+      }
+      return true;
+    };
   }
 
   applyFilter(event: Event): void {

@@ -26,6 +26,10 @@ th {
   background-color: lightgray;
 }
 
+.mat-header-cell, .mat-cell {
+  padding: 0 10px;
+}
+
 tr:hover {
   background-color: whitesmoke;
 }

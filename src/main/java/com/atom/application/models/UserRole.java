@@ -2,32 +2,38 @@ package com.atom.application.models;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Table(name = "user_permissions")
 @Entity
-public class UserPermission {
+@Table(name = "user_roles")
+public class UserRole {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 50)
+    @Size(min = 5, max = 50)
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
-    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
-    private Set<UserRole> roles;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "roles_permissions",
+        joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+    private Set<UserPermission> permissions;
 
     public Long getId() {
         return id;
@@ -43,6 +49,14 @@ public class UserPermission {
 
     public void setName(String name) {
         this.name = name.toUpperCase();
+    }
+
+    public Set<UserPermission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<UserPermission> permissions) {
+        this.permissions = permissions;
     }
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -34,6 +35,9 @@ public class UserRole {
         joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     private Set<UserPermission> permissions;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Set<WebUser> users;
 
     public Long getId() {
         return id;

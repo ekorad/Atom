@@ -29,3 +29,10 @@ th {
 tr:hover {
   background-color: whitesmoke;
 }
+
+.notification {
+  margin-top: 30px;
+  display: block;
+  text-align: center;
+  font-size: 1.2em;
+}

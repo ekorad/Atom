@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -11,11 +12,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserPermissionAdminComponent } from './components/user-permission-admin/user-permission-admin.component';
+import { UserRoleAdminComponent } from './components/user-role-admin/user-role-admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserPermissionAdminComponent
+    UserPermissionAdminComponent,
+    UserRoleAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { UserPermissionAdminComponent } from './components/user-permission-admin
     MatSortModule,
     MatPaginatorModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

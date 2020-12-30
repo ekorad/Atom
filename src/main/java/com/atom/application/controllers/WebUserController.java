@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,9 +26,30 @@ public class WebUserController {
     public List<WebUser> getAllUsers() {
         List<WebUser> users = service.getAllUsers();
         if (users.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "No users found");
         }
         return users;
+    }
+
+    @GetMapping(params = "username")
+    public WebUser getUserByUsername(@RequestParam String username) {
+        WebUser user = service.getUserByUsername(username);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "User with username '" + username + "' not found");
+        }
+        return user;
+    }
+
+    @GetMapping(params = "email")
+    public WebUser getUserByEmail(@RequestParam String email) {
+        WebUser user = service.getUserByEmail(email);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "User with email '" + email + "' not found");
+        }
+        return user;
     }
     
 }

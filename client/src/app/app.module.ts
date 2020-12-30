@@ -13,12 +13,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserPermissionAdminComponent } from './components/user-permission-admin/user-permission-admin.component';
 import { UserRoleAdminComponent } from './components/user-role-admin/user-role-admin.component';
+import { UserAdminComponent } from './components/user-admin/user-admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserPermissionAdminComponent,
-    UserRoleAdminComponent
+    UserRoleAdminComponent,
+    UserAdminComponent
   ],
   imports: [
     BrowserModule,

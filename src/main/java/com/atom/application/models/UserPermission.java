@@ -26,6 +26,10 @@ public class UserPermission {
     @Column(nullable = false, unique = true, length = 50)
     private String name;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String description;
+
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private Set<UserRole> roles;
 
@@ -44,5 +48,23 @@ public class UserPermission {
     public void setName(String name) {
         this.name = name.toUpperCase();
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    // TODO: add getter and setter
+
+    // public Set<UserRole> getRoles() {
+    //     return roles;
+    // }
+
+    // public void setRoles(Set<UserRole> roles) {
+    //     this.roles = roles;
+    // }
 
 }

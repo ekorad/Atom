@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoaderService } from './../../services/loader.service';
+import { PartialObserver } from 'rxjs';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,43 +15,65 @@ import { UserPermissionService } from './../../services/user-permission.service'
 })
 export class UserPermissionAdminComponent implements OnInit {
 
+  private readonly initialObserver: PartialObserver<UserPermission[]> = {
+    next: recvPerms => this.dataSource.data = recvPerms
+  };
+
+  private readonly refreshObserver: PartialObserver<UserPermission[]> = {
+    next: recvPerms => this.dataSource.data = recvPerms,
+    complete: () => this.snackBar.open('Datele au fost incarcate cu success',
+      'Inchide', { duration: 3000 })
+  };
+
+  isLoading = false;
   dataSource: MatTableDataSource<UserPermission> = new MatTableDataSource<UserPermission>();
-  columnsToDisplay: string[] = ['id', 'name'];
+  columnsToBeDisplayed = ['id', 'name', 'description'];
 
-  @ViewChild(MatSort, { static: false }) set sort(val: MatSort) {
-    if (val) {
-      this.dataSource.sort = val;
-    }
-  }
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
-  @ViewChild(MatPaginator, { static: false }) set paginator(val: MatPaginator) {
-    if (val) {
-      this.dataSource.paginator = val;
-    }
-  }
-
-  constructor(private userPermService: UserPermissionService) {
-  }
+  constructor(private userPermissionService: UserPermissionService,
+              private loaderService: LoaderService, private cd: ChangeDetectorRef,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.userPermService.getAllUserPermissions()
-      .subscribe(recvPerms => this.dataSource.data = recvPerms);
+    this.loaderService.isLoading$
+      .subscribe(val => {
+        this.isLoading = val;
+        this.cd.detectChanges();
+        this.dataSource.filter = '';
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    this.userPermissionService.getAllUserPermissions()
+      .subscribe(this.initialObserver);
 
     this.dataSource.filterPredicate = (data: UserPermission, filter: string) => {
-      const dataStr = (data.id + ' ' + data.name).toLowerCase();
+      let dataStr = (data.id + ' ' + data.name + ' ' + data.description).toLowerCase();
       const filters: string[] = filter.replace(/\s+/g, ' ').split(' ');
       for (const singleFilter of filters) {
         if (!dataStr.includes(singleFilter)) {
           return false;
+        } else {
+          dataStr = dataStr.replace(singleFilter, '');
         }
       }
       return true;
     };
   }
 
+  onClick(): void {
+    this.refreshContent();
+  }
+
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  private refreshContent(): void {
+    this.userPermissionService.getAllUserPermissions()
+      .subscribe(this.refreshObserver);
   }
 
 }

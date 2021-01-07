@@ -48,3 +48,11 @@ mat-spinner {
 .refresh-btn {
   margin-top: 15px;
 }
+
+.mat-column-id {
+  flex: 0 0 10%;
+}
+
+.mat-column-name {
+  flex: 0 0 28%;
+}

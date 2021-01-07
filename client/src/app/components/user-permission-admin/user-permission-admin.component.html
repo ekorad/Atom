@@ -20,7 +20,7 @@
       <div class="filter-container">
         <mat-form-field>
           <mat-label>Cautare</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex: READ" #input />
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex: modify_any_comments" #input />
         </mat-form-field>
       </div>
 
@@ -29,12 +29,12 @@
 
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-            <mat-cell *matCellDef="let permission">{{permission.id}}</mat-cell>
+            <mat-cell style="font-style: italic;" *matCellDef="let permission">{{permission.id}}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Denumire permisiune</mat-header-cell>
-            <mat-cell *matCellDef="let permission">{{permission.name}}</mat-cell>
+            <mat-cell style="font-weight: bold;" *matCellDef="let permission">{{permission.name}}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="description">

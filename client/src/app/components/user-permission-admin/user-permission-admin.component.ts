@@ -21,7 +21,7 @@ export class UserPermissionAdminComponent implements OnInit {
 
   private readonly refreshObserver: PartialObserver<UserPermission[]> = {
     next: recvPerms => this.dataSource.data = recvPerms,
-    complete: () => this.snackBar.open('Datele au fost incarcate cu success',
+    complete: () => this.snackBar.open('Datele au fost incarcate cu succes',
       'Inchide', { duration: 3000 })
   };
 

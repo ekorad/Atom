@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Table(name = "user_permissions")
 @Entity
 public class UserPermission {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +27,7 @@ public class UserPermission {
     private String name;
 
     @NotBlank
+    @Size(min = 5, max = 255)
     @Column(nullable = false)
     private String description;
 
@@ -60,11 +61,11 @@ public class UserPermission {
     // TODO: add getter and setter
 
     // public Set<UserRole> getRoles() {
-    //     return roles;
+    // return roles;
     // }
 
     // public void setRoles(Set<UserRole> roles) {
-    //     this.roles = roles;
+    // this.roles = roles;
     // }
 
 }

@@ -23,8 +23,10 @@ INSERT INTO user_permissions (name, description) VALUES
     ('READ_ANY_ROLE', 'Utilizatorul poate accesa toate rolurile de utilizator'), 
     ('READ_ANY_PERMISSION', 'Utilizatorul poate accesa toate permisiunile de utilizator');
 
-INSERT INTO user_roles (name) VALUES
-    ('USER'), ('MODERATOR'), ('ADMIN');
+INSERT INTO user_roles (name, description) VALUES
+    ('USER', 'Poate posta, edita si sterge comentarii si plasa comenzi'), 
+    ('MODERATOR', 'Are aceleasi permisiuni ca "USER" plus: poate modifica si sterge comentariile oricarui utilizator si poate accesa orice comanda'), 
+    ('ADMIN', 'Are toate permisiunile (are acces complet in ceea ce priveste manipularea bazei de date)');
 
 INSERT INTO roles_permissions(role_id, permission_id) VALUES 
     ((SELECT id FROM user_roles WHERE name = 'USER' LIMIT 1), 

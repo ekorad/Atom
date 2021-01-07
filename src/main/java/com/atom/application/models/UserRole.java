@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -29,6 +30,11 @@ public class UserRole {
     @Size(min = 5, max = 50)
     @Column(nullable = false, unique = true, length = 50)
     private String name;
+
+    @NotEmpty
+    @Size(min = 5, max = 255)
+    @Column(nullable = false)
+    private String description;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "roles_permissions",
@@ -61,6 +67,14 @@ public class UserRole {
 
     public void setPermissions(Set<UserPermission> permissions) {
         this.permissions = permissions;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

@@ -10,7 +10,7 @@ export class UserRoleService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRoles(): Observable<UserRole[]> {
+  getAllUserRoles(): Observable<UserRole[]> {
     return this.http.get<UserRole[]>('http://localhost:8080/users/roles');
   }
 }
